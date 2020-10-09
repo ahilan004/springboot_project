@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 
 @Document
-public class Stock {
+public class Trade {
 
 	@Id
 	public ObjectId _id;
@@ -49,7 +49,7 @@ public class Stock {
 		return "Stock [id=" + iden + ", date=" + date + ", ticker=" + ticker + ", quantity=" + quantity + ", price="
 				+ price + ", status=" + status + "]";
 	}*/
-	public Stock() {
+	public Trade() {
 		super();
 	}
 	
