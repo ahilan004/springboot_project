@@ -7,15 +7,15 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.hackathon.model.Stock;
+import com.example.hackathon.model.Trade;
 
 @Repository
-public interface StockRepository extends MongoRepository<Stock, String> {
+public interface StockRepository extends MongoRepository<Trade, String> {
 
 	
-	public List<Stock> findByDate(String date);
-	public List<Stock> findByTicker(String ticker);
+	public List<Trade> findByDate(String date);
+	public List<Trade> findByTicker(String ticker);
 	//public List<Stock> findByPriceRange(double price1, double price2);
  	
- 	public Stock findBy_id(ObjectId _id);
+ 	public Trade findBy_id(ObjectId _id);
 }

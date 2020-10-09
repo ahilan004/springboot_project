@@ -1,7 +1,10 @@
 package com.example.hackathon.controller;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import yahoofinance.Stock;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.hackathon.model.Stock;
+
+import com.example.hackathon.model.StockWrapper;
+import com.example.hackathon.model.Trade;
 import com.example.hackathon.model.TradeState;
 import com.example.hackathon.model.TradeType;
 import com.example.hackathon.repository.StockRepository;
+import com.example.hackathon.service.FinanceService;
+
 import javax.validation.Valid;
 
 
@@ -28,20 +35,20 @@ public class StockController {
 	private StockRepository stockRepository;
 	
 	@GetMapping("/list")
-	public List<Stock> getAll(){
+	public List<Trade> getAll(){
 		return stockRepository.findAll();	
 		}
 	@GetMapping("/date/{date}")
-	public List<Stock> getByDate(@PathVariable String date){
+	public List<Trade> getByDate(@PathVariable String date){
 		return stockRepository.findByDate(date); 
 	}
 	@GetMapping("/ticker/{ticker}")
-	public List<Stock> getByTicker(@PathVariable String ticker){
+	public List<Trade> getByTicker(@PathVariable String ticker){
 		return stockRepository.findByTicker(ticker); 
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/create")
-	public Stock create(@Valid @RequestBody Stock stock) {
+	public Trade create(@Valid @RequestBody Trade stock) {
 				stock.setDate(new Date(System.currentTimeMillis()));
 		TradeState contactType = TradeState.valueOf("CREATED");
 		TradeType TradType = TradeType.valueOf("BUY");
@@ -51,9 +58,18 @@ public class StockController {
 		 stockRepository.save(stock);
 		return stock;
 	}
+	
+	@GetMapping("/price/{symbol}")
+	public BigDecimal stockPrice(@PathVariable String symbol) throws IOException {
+		FinanceService service=new FinanceService();
+        StockWrapper w = service.findStock(symbol);
+        return service.findPrice(w);
+    }
+
+	
 	@RequestMapping(method=RequestMethod.PUT, value="/{id}")
-	public String update(@Valid @RequestBody Stock stock, @PathVariable ObjectId id) {
-		Stock test = stockRepository.findBy_id(id);
+	public String update(@Valid @RequestBody Trade stock, @PathVariable ObjectId id) {
+		Trade test = stockRepository.findBy_id(id);
 		if(test.getState().equals("CREATED")) {
 		stock.set_id(id);
 		stockRepository.save(stock);
