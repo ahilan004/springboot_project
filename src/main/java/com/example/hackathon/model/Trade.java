@@ -14,11 +14,19 @@ public class Trade {
 	public ObjectId _id;
 	//private static int stockNum=1;
 	private Date date = new Date(System.currentTimeMillis());
+	private String userName;
 	private TradeState state;
     private TradeType type;
 	private String ticker;
 	private double quantity;
 	private double price;
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
 	public Date getDate() {
 		return date;
 	}

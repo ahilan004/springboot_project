@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Buy History</title>
+    <link rel="stylesheet" href="stylesheet/history.css" />
+
+    <script>
+
+    async function deleteById(id) {
+        
+        await fetch("api/compactdiscs/" + id, {
+            method: "DELETE"
+        });
+        await getAll();
+        //alert("deleted number " + id);
+    }
+	
+    function getId(id) {
+    	fetch("stocks/id/" + id).then(function(result) {
+            return result.json();
+        });
+    }
+    
+    function getStatus() {
+        // done using promise using then function syntax
+         fetch('stocks/id/5f81609b433a7533e984d5b2').then(function(result) {
+             return result.json();
+         }).then(function (cdList) {
+             let htmlString = "<table class='table table-striped'><thead><tr><th>Ticker</th><th>Quantity</th></tr></thead>";
+           //  var it=document.getElementByClassName("table table-striped");
+           //  it.style.display=(it.style.display=="table")?"none":"table";
+             cdList.map((cd) => {
+                 htmlString+="<tr>";
+                 htmlString+="<td>"+ cd.ticker + "</td>";
+                 htmlString+="<td>"+ cd.quantity + "</td>";
+                 //ftmlString+="<td>"+ cd.price + "</td>";
+                // ftmlString+="<td>"+ cd.state + "</td>";
+                // htmlString+="<td>"+ cd.title + "</td>";
+                // htmlString+="<td><button class='btn btn-primary' onClick='deleteById(\"" + cd.hexString + "\")'>Sell</button></td>";
+                 htmlString+="<td><button class='btn btn-primary' onClick='getAll()'>Back</button></td>";
+
+                 htmlString+="</tr>";
+             });
+             htmlString += "</table>";
+             document.getElementById("cdDiv").innerHTML = htmlString;
+         });
+     }
+    
+    
+    function getBuy() {
+       // done using promise using then function syntax
+        fetch('stocks/buy').then(function(result) {
+            return result.json();
+        }).then(function (cdList) {
+            let htmlString = " <div class=\"plan\">";
+            cdList.map((cd) => {
+                
+                htmlString+="<h3>" + cd.ticker + "<span>" + cd.price + "</span></h3>";
+                htmlString+= "<a class=\"signup\" href="">Sell</a>";
+                htmlString+="<ul><li>" + cd.date+ "</li>";
+                htmlString+="<li>" + cd.quantity+ "</li>";
+                htmlString+="<li>" + cd.state+ "</li></ul></div>";
+                
+            });
+           
+            document.getElementById("cdDiv").innerHTML = htmlString;
+        });
+    }
+   
+           
+    </script>
+</head>
+<body onLoad="getBuy()">
+  <div id="pricing-table" class="clear"> 
+  </div>
+</body>
+</html>

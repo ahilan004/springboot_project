@@ -38,34 +38,45 @@ public class StockController {
 	public List<Trade> getAll(){
 		return stockRepository.findAll();	
 		}
-	@GetMapping("/date/{date}")
+	@GetMapping("/buy")
+	public List<Trade> getBuy(){
+		TradeType TradType = TradeType.valueOf("BUY");
+		return stockRepository.findByType(TradType);	
+		}
+	@GetMapping("/sell")
+	public List<Trade> getSell(){
+		TradeType TradType = TradeType.valueOf("SELL");
+		return stockRepository.findByType(TradType);	
+		}
+
+	/*@GetMapping("/date/{date}")
 	public List<Trade> getByDate(@PathVariable String date){
 		return stockRepository.findByDate(date); 
 	}
 	@GetMapping("/ticker/{ticker}")
 	public List<Trade> getByTicker(@PathVariable String ticker){
 		return stockRepository.findByTicker(ticker); 
-	}
+	}*/
 	
 	@RequestMapping(method=RequestMethod.POST, value="/create")
 	public Trade create(@Valid @RequestBody Trade stock) {
 				stock.setDate(new Date(System.currentTimeMillis()));
 		TradeState contactType = TradeState.valueOf("CREATED");
-		TradeType TradType = TradeType.valueOf("BUY");
+		//TradeType TradType = TradeType.valueOf("BUY");
 		stock.setState(contactType);
-		stock.setType(TradType);
+		//stock.setType(TradType);
 		stock.set_id(ObjectId.get());
 		 stockRepository.save(stock);
 		return stock;
 	}
 	
-	@GetMapping("/price/{symbol}")
+	/*@GetMapping("/price/{symbol}")
 	public BigDecimal stockPrice(@PathVariable String symbol) throws IOException {
 		FinanceService service=new FinanceService();
         StockWrapper w = service.findStock(symbol);
         return service.findPrice(w);
     }
-
+*/
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/{id}")
 	public String update(@Valid @RequestBody Trade stock, @PathVariable ObjectId id) {
