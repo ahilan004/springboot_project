@@ -12,7 +12,7 @@ public class Trade {
 
 	@Id
 	public ObjectId _id;
-	//private static int stockNum=1;
+
 	private Date date = new Date(System.currentTimeMillis());
 	private String userName;
 	private TradeState state;
@@ -52,11 +52,7 @@ public class Trade {
 		this._id = _id; 
 		}
 
-	//@Override
-	/*public String toString() {
-		return "Stock [id=" + iden + ", date=" + date + ", ticker=" + ticker + ", quantity=" + quantity + ", price="
-				+ price + ", status=" + status + "]";
-	}*/
+
 	public Trade() {
 		super();
 	}

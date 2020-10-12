@@ -48,16 +48,6 @@ public class StockController {
 		TradeType TradType = TradeType.valueOf("SELL");
 		return stockRepository.findByType(TradType);	
 		}
-
-	/*@GetMapping("/date/{date}")
-	public List<Trade> getByDate(@PathVariable String date){
-		return stockRepository.findByDate(date); 
-	}
-	@GetMapping("/ticker/{ticker}")
-	public List<Trade> getByTicker(@PathVariable String ticker){
-		return stockRepository.findByTicker(ticker); 
-	}*/
-	
 	@RequestMapping(method=RequestMethod.POST, value="/create")
 	public Trade create(@Valid @RequestBody Trade stock) {
 				stock.setDate(new Date(System.currentTimeMillis()));
@@ -69,14 +59,25 @@ public class StockController {
 		 stockRepository.save(stock);
 		return stock;
 	}
+
+	/*@GetMapping("/date/{date}")
+	public List<Trade> getByDate(@PathVariable String date){
+		return stockRepository.findByDate(date); 
+	}
+	@GetMapping("/ticker/{ticker}")
+	public List<Trade> getByTicker(@PathVariable String ticker){
+		return stockRepository.findByTicker(ticker); 
+	}
 	
-	/*@GetMapping("/price/{symbol}")
+	
+	@GetMapping("/price/{symbol}")
 	public BigDecimal stockPrice(@PathVariable String symbol) throws IOException {
 		FinanceService service=new FinanceService();
         StockWrapper w = service.findStock(symbol);
         return service.findPrice(w);
     }
-*/
+
+	
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/{id}")
 	public String update(@Valid @RequestBody Trade stock, @PathVariable ObjectId id) {
@@ -89,14 +90,15 @@ public class StockController {
 		else
 			return "Status already updated";
 	}
-	/*@RequestMapping(method=RequetMethod.DELETE, value="/stocks")
+	@RequestMapping(method=RequetMethod.DELETE, value="/stocks")
 	public String deleteAll() {
 		stockService.deleteAll();
 		return "deleted all stocks";
-	}*/
+	}
 	@RequestMapping(method=RequestMethod.DELETE, value="/{id}")
 	public String deleteById(@Valid @PathVariable ObjectId id) {
 		stockRepository.delete(stockRepository.findBy_id(id));
 		return "Deleted the " + id + "stock";
 	}
+	*/
 }

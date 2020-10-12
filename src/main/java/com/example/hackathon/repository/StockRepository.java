@@ -17,7 +17,7 @@ public interface StockRepository extends MongoRepository<Trade, String> {
 	
 	public List<Trade> findByType(TradeType type);
 	public List<Trade> findByState(TradeState state);
-	//public List<Stock> findByPriceRange(double price1, double price2);
+	
  	
  	public Trade findBy_id(ObjectId _id);
 }
